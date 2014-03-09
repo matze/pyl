@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PANDOC=$(which pandoc)
+MATHJAX_CDN="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+REMAINING_ARGS=${*:2}
+
+$PANDOC -f markdown -t json $1 | pyl-filter | $PANDOC --mathjax=$MATHJAX_CDN -s -f json $REMAINING_ARGS
