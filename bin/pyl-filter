@@ -12,7 +12,12 @@ local_vars = {}
 def replace_python(key, value, fmt, meta):
     if key == 'CodeBlock':
         code = str(value[-1])
-        exec code
+
+        try:
+            exec code
+        except Exception as e:
+            sys.stderr.write("Could not execute code block: {}".format(str(e)))
+
         globals().update(locals())
     if key == 'Code':
         var = str(value[-1])
@@ -20,9 +25,7 @@ def replace_python(key, value, fmt, meta):
 
         try:
             exec 'result = {}'.format(var)
-        except NameError:
-            pass
-        except SyntaxError:
+        except Exception:
             pass
 
         if result is not None:
