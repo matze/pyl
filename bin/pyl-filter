@@ -22,6 +22,8 @@ def replace_python(key, value, fmt, meta):
             exec 'result = {}'.format(var)
         except NameError:
             pass
+        except SyntaxError:
+            pass
 
         if result is not None:
             return Str(str(result))
