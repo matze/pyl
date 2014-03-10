@@ -3,6 +3,7 @@
 import sys
 import json
 import ast
+import pyl.nodes
 from pandocfilters import Str, walk
 
 
@@ -19,7 +20,7 @@ def replace_python(key, value, fmt, meta):
             sys.stderr.write("Could not execute code block: {}".format(str(e)))
 
         globals().update(locals())
-    if key == 'Code':
+    elif key == 'Code':
         var = str(value[-1])
         result = None
 
@@ -29,6 +30,11 @@ def replace_python(key, value, fmt, meta):
             pass
 
         if result is not None:
+            if isinstance(result, pyl.nodes.Image):
+                return {u'Image': [[Str(result.alt)],
+                                   [unicode(result.fname),
+                                    result.caption]]}
+
             return Str(str(result))
 
 

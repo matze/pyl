@@ -8,6 +8,6 @@ setup(
     license='MIT',
     scripts=['bin/pyl-filter',
              'bin/pyl-build'],
-    install_requires=['pandocfilters==1.1'
-    ],
+    install_requires=['pandocfilters==1.1'],
+    packages=['pyl'],
 )
